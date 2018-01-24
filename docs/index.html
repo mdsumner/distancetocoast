@@ -59,7 +59,7 @@
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#distancetocoast" class="anchor"></a>distancetocoast</h1></div>
 <p>The goal of distancetocoast is to provide an easy lookup for the “distance to coastline” for longitude and latitude coordinates.</p>
-<p>Use at your own risk!</p>
+<p>Use at your own risk! Literally each of “distance”, “to” and “coast” are hard to define carefully, but often we need an easy way to find approximations.</p>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
@@ -80,7 +80,7 @@ raster<span class="op">::</span><span class="kw"><a href="http://www.rdocumentat
 <span class="co">#&gt; 65628</span></code></pre></div>
 <p>This is a very approximate value, and it will depend on the content and quality of the coastline data used, on the resolution of the grid itself, some un-quantified local distortions due to coordinate transformations and discretization, and may not be accurate for some applications.</p>
 <p>There will be some regions inside oceans, inside land, and inside lakes as defined by the coastline. We make no distinction for “inside” anything, this is purely distance to the line. A matching “land mask” layer could be added to provide a flag for these regions, but this is a deep can of worms …</p>
-<p>This grid was created by process it in tiles, reprojecting the coastline and the grid pixel centres to a local Lambert Azimuthal Equidistant projection (<code>aeqd</code> in <a href="PROJ.4">http://proj4.org/projections/aeqd.html</a> terms) and calculating shortest Cartesian distance to the coastline coordinate in that projection. (We used the <code>nabor</code> package).</p>
+<p>This grid was created by process it in tiles, reprojecting the coastline and the grid pixel centres to a local Lambert Azimuthal Equidistant projection (<code>aeqd</code> in <a href="http://proj4.org/projections/aeqd.html">PROJ.4</a> terms) and calculating shortest Cartesian distance to the coastline coordinate in that projection. (We used the <code>nabor</code> package).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="http://www.rdocumentation.org/packages/raster/topics/plot">plot</a></span>(distance_to_coastline_lowres, <span class="dt">col =</span> viridis<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/viridis/topics/reexports">viridis</a></span>(<span class="dv">64</span>))
 <span class="kw"><a href="http://www.rdocumentation.org/packages/raster/topics/plot">plot</a></span>(rnaturalearth<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/rnaturalearth/topics/ne_coastline">ne_coastline</a></span>(), <span class="dt">add =</span> <span class="ot">TRUE</span>)</code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-2-1.png" width="100%"> The in-built data can be interrogated directly for its properties.</p>
@@ -119,8 +119,23 @@ raster<span class="op">::</span><span class="kw"><a href="http://www.rdocumentat
 <span class="co">#&gt; data source : in memory</span>
 <span class="co">#&gt; names       : layer </span>
 <span class="co">#&gt; values      : 1, 5297879  (min, max)</span></code></pre></div>
-<p>The distance values are currently</p>
-<p>See ‘/data-raw/’ for the code used to produce this layer.</p>
+<p>There are also higher resolution layers created from the Natural Earth coastline “50” and “10” scale coastline data sets.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ex &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/raster/topics/extent">extent</a></span>(<span class="dv">140</span>, <span class="dv">160</span>, <span class="dv">-60</span>, <span class="dv">-40</span>)
+<span class="kw"><a href="http://www.rdocumentation.org/packages/raster/topics/plot">plot</a></span>(<span class="kw"><a href="http://www.rdocumentation.org/packages/raster/topics/crop">crop</a></span>(distance_to_coastline_<span class="dv">10</span>, ex), <span class="dt">col =</span> viridis<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/viridis/topics/reexports">viridis</a></span>(<span class="dv">64</span>))
+<span class="kw"><a href="http://www.rdocumentation.org/packages/raster/topics/plot">plot</a></span>(rnaturalearth<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/rnaturalearth/topics/ne_coastline">ne_coastline</a></span>(<span class="dv">10</span>), <span class="dt">add =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<p><img src="reference/figures/README-unnamed-chunk-5-1.png" width="100%"></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">
+<span class="kw"><a href="http://www.rdocumentation.org/packages/raster/topics/plot">plot</a></span>(<span class="kw"><a href="http://www.rdocumentation.org/packages/raster/topics/crop">crop</a></span>(distance_to_coastline_<span class="dv">10</span>, <span class="kw"><a href="http://www.rdocumentation.org/packages/raster/topics/extent">extent</a></span>(<span class="dv">157</span>, <span class="dv">160</span>, <span class="dv">-57</span>, <span class="dv">-54</span>)), <span class="dt">col =</span> viridis<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/viridis/topics/reexports">viridis</a></span>(<span class="dv">64</span>))
+<span class="kw"><a href="http://www.rdocumentation.org/packages/raster/topics/plot">plot</a></span>(rnaturalearth<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/rnaturalearth/topics/ne_coastline">ne_coastline</a></span>(<span class="dv">10</span>), <span class="dt">add =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<p><img src="reference/figures/README-unnamed-chunk-5-2.png" width="100%"></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">
+<span class="kw"><a href="http://www.rdocumentation.org/packages/raster/topics/extract">extract</a></span>(distance_to_coastline_<span class="dv">10</span>, <span class="kw">cbind</span>(<span class="dv">142</span>, <span class="dv">-42</span>))
+<span class="co">#&gt;        </span>
+<span class="co">#&gt; 241399</span>
+<span class="kw"><a href="http://www.rdocumentation.org/packages/raster/topics/extract">extract</a></span>(distance_to_coastline_lowres, <span class="kw">cbind</span>(<span class="dv">142</span>, <span class="dv">-42</span>))
+<span class="co">#&gt;        </span>
+<span class="co">#&gt; 238327</span></code></pre></div>
+<p>See ‘/data-raw/’ for the code used to produce all layer.</p>
 </div>
 <div id="development" class="section level2">
 <h2 class="hasAnchor">
@@ -152,12 +167,12 @@ rgl<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation
 rgl<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/rgl/topics/mesh3d">shade3d</a></span>(globe, <span class="dt">specular =</span> <span class="st">"black"</span>)
 
 <span class="kw">library</span>(tidyverse)
-<span class="co">#&gt; ── Attaching packages ────────────────────── tidyverse 1.2.1 ──</span>
+<span class="co">#&gt; ── Attaching packages ──────────────────────────────────────── tidyverse 1.2.1 ──</span>
 <span class="co">#&gt; ✔ ggplot2 2.2.1.9000     ✔ purrr   0.2.4     </span>
 <span class="co">#&gt; ✔ tibble  1.4.2          ✔ dplyr   0.7.4     </span>
 <span class="co">#&gt; ✔ tidyr   0.7.2          ✔ stringr 1.2.0     </span>
 <span class="co">#&gt; ✔ readr   1.1.1          ✔ forcats 0.2.0</span>
-<span class="co">#&gt; ── Conflicts ───────────────────────── tidyverse_conflicts() ──</span>
+<span class="co">#&gt; ── Conflicts ─────────────────────────────────────────── tidyverse_conflicts() ──</span>
 <span class="co">#&gt; ✖ ggplot2::calc()  masks raster::calc()</span>
 <span class="co">#&gt; ✖ tidyr::extract() masks raster::extract()</span>
 <span class="co">#&gt; ✖ dplyr::filter()  masks stats::filter()</span>

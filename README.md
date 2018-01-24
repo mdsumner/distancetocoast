@@ -5,7 +5,7 @@ distancetocoast
 
 The goal of distancetocoast is to provide an easy lookup for the "distance to coastline" for longitude and latitude coordinates.
 
-Use at your own risk!
+Use at your own risk! Literally each of "distance", "to" and "coast" are hard to define carefully, but often we need an easy way to find approximations.
 
 Installation
 ------------
@@ -37,7 +37,7 @@ This is a very approximate value, and it will depend on the content and quality 
 
 There will be some regions inside oceans, inside land, and inside lakes as defined by the coastline. We make no distinction for "inside" anything, this is purely distance to the line. A matching "land mask" layer could be added to provide a flag for these regions, but this is a deep can of worms ...
 
-This grid was created by process it in tiles, reprojecting the coastline and the grid pixel centres to a local Lambert Azimuthal Equidistant projection (`aeqd` in [http://proj4.org/projections/aeqd.html](PROJ.4) terms) and calculating shortest Cartesian distance to the coastline coordinate in that projection. (We used the `nabor` package).
+This grid was created by process it in tiles, reprojecting the coastline and the grid pixel centres to a local Lambert Azimuthal Equidistant projection (`aeqd` in [PROJ.4](http://proj4.org/projections/aeqd.html) terms) and calculating shortest Cartesian distance to the coastline coordinate in that projection. (We used the `nabor` package).
 
 ``` r
 plot(distance_to_coastline_lowres, col = viridis::viridis(64))
@@ -88,9 +88,35 @@ distance_to_coastline_lowres
 #> values      : 1, 5297879  (min, max)
 ```
 
-The distance values are currently
+There are also higher resolution layers created from the Natural Earth coastline "50" and "10" scale coastline data sets.
 
-See '/data-raw/' for the code used to produce this layer.
+``` r
+ex <- extent(140, 160, -60, -40)
+plot(crop(distance_to_coastline_10, ex), col = viridis::viridis(64))
+plot(rnaturalearth::ne_coastline(10), add = TRUE)
+```
+
+<img src="man/figures/README-unnamed-chunk-5-1.png" width="100%" />
+
+``` r
+
+plot(crop(distance_to_coastline_10, extent(157, 160, -57, -54)), col = viridis::viridis(64))
+plot(rnaturalearth::ne_coastline(10), add = TRUE)
+```
+
+<img src="man/figures/README-unnamed-chunk-5-2.png" width="100%" />
+
+``` r
+
+extract(distance_to_coastline_10, cbind(142, -42))
+#>        
+#> 241399
+extract(distance_to_coastline_lowres, cbind(142, -42))
+#>        
+#> 238327
+```
+
+See '/data-raw/' for the code used to produce all layer.
 
 Development
 -----------
@@ -124,12 +150,12 @@ rgl::rgl.clear()
 rgl::shade3d(globe, specular = "black")
 
 library(tidyverse)
-#> ── Attaching packages ────────────────────── tidyverse 1.2.1 ──
+#> ── Attaching packages ──────────────────────────────────────── tidyverse 1.2.1 ──
 #> ✔ ggplot2 2.2.1.9000     ✔ purrr   0.2.4     
 #> ✔ tibble  1.4.2          ✔ dplyr   0.7.4     
 #> ✔ tidyr   0.7.2          ✔ stringr 1.2.0     
 #> ✔ readr   1.1.1          ✔ forcats 0.2.0
-#> ── Conflicts ───────────────────────── tidyverse_conflicts() ──
+#> ── Conflicts ─────────────────────────────────────────── tidyverse_conflicts() ──
 #> ✖ ggplot2::calc()  masks raster::calc()
 #> ✖ tidyr::extract() masks raster::extract()
 #> ✖ dplyr::filter()  masks stats::filter()

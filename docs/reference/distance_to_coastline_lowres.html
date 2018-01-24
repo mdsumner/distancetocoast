@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Distance to coast (low resolution) — distance_to_coastline_lowres • distancetocoast</title>
+<title>Distance to coast (varying resolutions) — distance_to_coastline_lowres • distancetocoast</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -75,12 +75,16 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Distance to coast (low resolution)</h1>
+    <h1>Distance to coast (varying resolutions)</h1>
     </div>
 
     
-    <p>A `RasterLayer` layer with the distance (metres) to the Natural Earth
-coastline. Scale 110, using the `rnaturalearth::ne_coastline` function.</p>
+    <p>All are <code>RasterLayer</code> layer with the distance (metres) to the Natural Earth
+coastline.</p><ul>
+<li><p><code>distance_to_coastline_lowres</code>  Scale 110  <code><a href='http://www.rdocumentation.org/packages/rnaturalearth/topics/ne_coastline'>rnaturalearth::ne_coastline(scale = 110)</a></code>.</p></li>
+<li><p><code>distance_to_coastline_50</code>  Scale 50 <code><a href='http://www.rdocumentation.org/packages/rnaturalearth/topics/ne_coastline'>rnaturalearth::ne_coastline(scale = 50)</a></code>.</p></li>
+<li><p><code>distance_to_coastline_10</code>  Scale 10  <code><a href='http://www.rdocumentation.org/packages/rnaturalearth/topics/ne_coastline'>rnaturalearth::ne_coastline(scale = 110)</a></code>.</p></li>
+</ul>
     
 
         
