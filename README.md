@@ -1,5 +1,7 @@
 
-[![Travis build status](https://travis-ci.org/mdsumner/distancetocoast.svg?branch=master)](https://travis-ci.org/mdsumner/distancetocoast) [![AppVeyor Build Status](https://ci.appveyor.com/mdsumner/distancetocoast)](https://ci.appveyor.com/api/projects/status/github//mdsumner/distancetocoast/?branch=master&svg=true)
+[![Travis build status](https://travis-ci.org/mdsumner/distancetocoast.svg?branch=master)](https://travis-ci.org/mdsumner/distancetocoast)
+
+[![AppVeyor Build Status](https://ci.appveyor.com/mdsumner/distancetocoast)](https://ci.appveyor.com/api/projects/status/github//mdsumner/distancetocoast/?branch=master&svg=true)
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 distancetocoast
@@ -23,7 +25,7 @@ Example
 
 There is an in-built data set, in `raster` format. The raster package includes an `extract` function which will look up a cell value at a given longitude and latitude location.
 
-This value is the distance to the coastline from the centre of the cell.
+This value is the distance (metres) to the coastline from the centre of the cell.
 
 ``` r
 library(distancetocoast)
@@ -96,6 +98,7 @@ There are also higher resolution layers created from the Natural Earth coastline
 ex <- extent(140, 160, -60, -40)
 plot(crop(distance_to_coastline_10, ex), col = viridis::viridis(64))
 plot(rnaturalearth::ne_coastline(10), add = TRUE)
+abline(v = 147, h = -42)
 ```
 
 <img src="man/figures/README-unnamed-chunk-5-1.png" width="100%" />
@@ -104,12 +107,12 @@ plot(rnaturalearth::ne_coastline(10), add = TRUE)
 
 plot(crop(distance_to_coastline_10, extent(157, 160, -57, -54)), col = viridis::viridis(64))
 plot(rnaturalearth::ne_coastline(10), add = TRUE)
-abline(v = 147, h = -42)
 ```
 
 <img src="man/figures/README-unnamed-chunk-5-2.png" width="100%" />
 
 ``` r
+
 extract(distance_to_coastline_10, cbind(147, -42))
 #>       
 #> 90146

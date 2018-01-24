@@ -55,6 +55,7 @@
     
 <div class="contents">
 
+<p><a href="https://ci.appveyor.com/api/projects/status/github//mdsumner/distancetocoast/?branch=master&amp;svg=true"><img src="https://ci.appveyor.com/mdsumner/distancetocoast" alt="AppVeyor Build Status"></a></p>
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 <div id="distancetocoast" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
@@ -71,7 +72,7 @@
 <h2 class="hasAnchor">
 <a href="#example" class="anchor"></a>Example</h2>
 <p>There is an in-built data set, in <code>raster</code> format. The raster package includes an <code>extract</code> function which will look up a cell value at a given longitude and latitude location.</p>
-<p>This value is the distance to the coastline from the centre of the cell.</p>
+<p>This value is the distance (metres) to the coastline from the centre of the cell.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(distancetocoast)
 <span class="kw">library</span>(raster)
 <span class="co">#&gt; Loading required package: sp</span>
@@ -123,14 +124,15 @@ raster<span class="op">::</span><span class="kw"><a href="http://www.rdocumentat
 <p>There are also higher resolution layers created from the Natural Earth coastline “50” and “10” scale coastline data sets.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ex &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/raster/topics/extent">extent</a></span>(<span class="dv">140</span>, <span class="dv">160</span>, <span class="dv">-60</span>, <span class="dv">-40</span>)
 <span class="kw"><a href="http://www.rdocumentation.org/packages/raster/topics/plot">plot</a></span>(<span class="kw"><a href="http://www.rdocumentation.org/packages/raster/topics/crop">crop</a></span>(distance_to_coastline_<span class="dv">10</span>, ex), <span class="dt">col =</span> viridis<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/viridis/topics/reexports">viridis</a></span>(<span class="dv">64</span>))
-<span class="kw"><a href="http://www.rdocumentation.org/packages/raster/topics/plot">plot</a></span>(rnaturalearth<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/rnaturalearth/topics/ne_coastline">ne_coastline</a></span>(<span class="dv">10</span>), <span class="dt">add =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<span class="kw"><a href="http://www.rdocumentation.org/packages/raster/topics/plot">plot</a></span>(rnaturalearth<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/rnaturalearth/topics/ne_coastline">ne_coastline</a></span>(<span class="dv">10</span>), <span class="dt">add =</span> <span class="ot">TRUE</span>)
+<span class="kw">abline</span>(<span class="dt">v =</span> <span class="dv">147</span>, <span class="dt">h =</span> <span class="dv">-42</span>)</code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-5-1.png" width="100%"></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">
 <span class="kw"><a href="http://www.rdocumentation.org/packages/raster/topics/plot">plot</a></span>(<span class="kw"><a href="http://www.rdocumentation.org/packages/raster/topics/crop">crop</a></span>(distance_to_coastline_<span class="dv">10</span>, <span class="kw"><a href="http://www.rdocumentation.org/packages/raster/topics/extent">extent</a></span>(<span class="dv">157</span>, <span class="dv">160</span>, <span class="dv">-57</span>, <span class="dv">-54</span>)), <span class="dt">col =</span> viridis<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/viridis/topics/reexports">viridis</a></span>(<span class="dv">64</span>))
-<span class="kw"><a href="http://www.rdocumentation.org/packages/raster/topics/plot">plot</a></span>(rnaturalearth<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/rnaturalearth/topics/ne_coastline">ne_coastline</a></span>(<span class="dv">10</span>), <span class="dt">add =</span> <span class="ot">TRUE</span>)
-<span class="kw">abline</span>(<span class="dt">v =</span> <span class="dv">147</span>, <span class="dt">h =</span> <span class="dv">-42</span>)</code></pre></div>
+<span class="kw"><a href="http://www.rdocumentation.org/packages/raster/topics/plot">plot</a></span>(rnaturalearth<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/rnaturalearth/topics/ne_coastline">ne_coastline</a></span>(<span class="dv">10</span>), <span class="dt">add =</span> <span class="ot">TRUE</span>)</code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-5-2.png" width="100%"></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="http://www.rdocumentation.org/packages/raster/topics/extract">extract</a></span>(distance_to_coastline_<span class="dv">10</span>, <span class="kw">cbind</span>(<span class="dv">147</span>, <span class="dv">-42</span>))
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">
+<span class="kw"><a href="http://www.rdocumentation.org/packages/raster/topics/extract">extract</a></span>(distance_to_coastline_<span class="dv">10</span>, <span class="kw">cbind</span>(<span class="dv">147</span>, <span class="dv">-42</span>))
 <span class="co">#&gt;       </span>
 <span class="co">#&gt; 90146</span>
 <span class="kw"><a href="http://www.rdocumentation.org/packages/raster/topics/extract">extract</a></span>(distance_to_coastline_lowres, <span class="kw">cbind</span>(<span class="dv">147</span>, <span class="dv">-42</span>))
@@ -214,7 +216,6 @@ rgl<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation
 <h2>Dev status</h2>
 <ul class="list-unstyled">
 <li><a href="https://travis-ci.org/mdsumner/distancetocoast"><img src="https://travis-ci.org/mdsumner/distancetocoast.svg?branch=master" alt="Travis build status"></a></li>
-<li><a href="https://ci.appveyor.com/api/projects/status/github//mdsumner/distancetocoast/?branch=master&amp;svg=true"><img src="https://ci.appveyor.com/mdsumner/distancetocoast" alt="AppVeyor Build Status"></a></li>
 </ul>
 </div>
 
