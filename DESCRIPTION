@@ -9,3 +9,4 @@ LazyData: true
 ByteCompile: true
 RoxygenNote: 6.0.1
 Depends: R (>= 3.0.0)
+Roxygen: list(markdown = TRUE)

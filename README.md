@@ -29,8 +29,8 @@ library(raster)
 #> Loading required package: sp
 ## beware of clashing with tidyr::extract
 raster::extract(distance_to_coastline_lowres, cbind(147, -42))
-#>          
-#> 60304.59
+#>       
+#> 65628
 ```
 
 This is a very approximate value, and it will depend on the content and quality of the coastline data used, on the resolution of the grid itself, some un-quantified local distortions due to coordinate transformations and discretization, and may not be accurate for some applications.
@@ -49,11 +49,11 @@ plot(rnaturalearth::ne_coastline(), add = TRUE)
 ``` r
 ## resolution (cell size in native coordinates)
 raster::res(distance_to_coastline_lowres)
-#> [1] 0.6 0.6
+#> [1] 0.5 0.5
 
 ## dimensions (number of columns and rows)
 dim(distance_to_coastline_lowres)
-#> [1] 300 600   1
+#> [1] 360 720   1
 
 ## the extent, in native coordinates
 raster::extent(distance_to_coastline_lowres)
@@ -69,9 +69,9 @@ raster::projection(distance_to_coastline_lowres)
 
 ## the range of values (distance in metres)
 cellStats(distance_to_coastline_lowres, min)
-#> [1] 1.814058
+#> [1] 1
 cellStats(distance_to_coastline_lowres, max)
-#> [1] 5304028
+#> [1] 5297879
 ```
 
 All of this information may be seen in one step by using the print method.
@@ -79,13 +79,13 @@ All of this information may be seen in one step by using the print method.
 ``` r
 distance_to_coastline_lowres
 #> class       : RasterLayer 
-#> dimensions  : 300, 600, 180000  (nrow, ncol, ncell)
-#> resolution  : 0.6, 0.6  (x, y)
+#> dimensions  : 360, 720, 259200  (nrow, ncol, ncell)
+#> resolution  : 0.5, 0.5  (x, y)
 #> extent      : -180, 180, -90, 90  (xmin, xmax, ymin, ymax)
 #> coord. ref. : +init=epsg:4326 +proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0 
 #> data source : in memory
 #> names       : layer 
-#> values      : 1.814058, 5304028  (min, max)
+#> values      : 1, 5297879  (min, max)
 ```
 
 The distance values are currently
