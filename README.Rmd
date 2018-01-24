@@ -12,16 +12,19 @@ knitr::opts_chunk$set(
   out.width = "100%"
 )
 ```
-# distancetoland
+# distancetocoast
 
-The goal of distancetoland is to provide an easy lookup for the "distance to coastline" for longitude and latitude coordinates. 
+The goal of distancetocoast is to provide an easy lookup for the "distance to coastline" for longitude and latitude coordinates. 
+
+Use at your own risk!
+
 
 ## Installation
 
 The distancetocoast package may be installed from Github using devtools. 
 
 ```{r,eval=FALSE}
-devtools::install_github("AustralianAntarcticDivision/distancetocoast")
+devtools::install_github("mdsumner/distancetocoast")
 ```
 
 
@@ -41,7 +44,10 @@ raster::extract(distance_to_coastline_lowres, cbind(147, -42))
 
 This is a very approximate value, and it will depend on the content and quality of the coastline data used, on the resolution of the grid itself, some un-quantified local distortions due to coordinate transformations and discretization, and may not be accurate for some applications. 
 
-This grid was created by process it in tiles, reprojecting the coastline and the grid pixel centres to a local Lambert Azimuthal Equi-distant projection and calculating shortest Cartesian distance to the coastline coordinate in that projection. (We used the `nabor` package). 
+There will be some regions inside oceans, inside land, and inside lakes as defined by the coastline. We make no distinction for "inside" anything, this is purely distance to the line. A matching "land mask" layer could be added to provide a flag for these regions, but this is a deep can of worms ...
+
+
+This grid was created by process it in tiles, reprojecting the coastline and the grid pixel centres to a local Lambert Azimuthal Equidistant projection (`aeqd` in [http://proj4.org/projections/aeqd.html](PROJ.4) terms) and calculating shortest Cartesian distance to the coastline coordinate in that projection. (We used the `nabor` package). 
 
 ```{r}
 plot(distance_to_coastline_lowres, col = viridis::viridis(64))

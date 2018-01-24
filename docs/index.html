@@ -55,15 +55,16 @@
     
 <div class="contents">
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-<div id="distancetoland" class="section level1">
+<div id="distancetocoast" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
-<a href="#distancetoland" class="anchor"></a>distancetoland</h1></div>
-<p>The goal of distancetoland is to provide an easy lookup for the “distance to coastline” for longitude and latitude coordinates.</p>
+<a href="#distancetocoast" class="anchor"></a>distancetocoast</h1></div>
+<p>The goal of distancetocoast is to provide an easy lookup for the “distance to coastline” for longitude and latitude coordinates.</p>
+<p>Use at your own risk!</p>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
 <p>The distancetocoast package may be installed from Github using devtools.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/install_github">install_github</a></span>(<span class="st">"AustralianAntarcticDivision/distancetocoast"</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/install_github">install_github</a></span>(<span class="st">"mdsumner/distancetocoast"</span>)</code></pre></div>
 </div>
 <div id="example" class="section level2">
 <h2 class="hasAnchor">
@@ -78,7 +79,8 @@ raster<span class="op">::</span><span class="kw"><a href="http://www.rdocumentat
 <span class="co">#&gt;          </span>
 <span class="co">#&gt; 60304.59</span></code></pre></div>
 <p>This is a very approximate value, and it will depend on the content and quality of the coastline data used, on the resolution of the grid itself, some un-quantified local distortions due to coordinate transformations and discretization, and may not be accurate for some applications.</p>
-<p>This grid was created by process it in tiles, reprojecting the coastline and the grid pixel centres to a local Lambert Azimuthal Equi-distant projection and calculating shortest Cartesian distance to the coastline coordinate in that projection. (We used the <code>nabor</code> package).</p>
+<p>There will be some regions inside oceans, inside land, and inside lakes as defined by the coastline. We make no distinction for “inside” anything, this is purely distance to the line. A matching “land mask” layer could be added to provide a flag for these regions, but this is a deep can of worms …</p>
+<p>This grid was created by process it in tiles, reprojecting the coastline and the grid pixel centres to a local Lambert Azimuthal Equidistant projection (<code>aeqd</code> in <a href="PROJ.4">http://proj4.org/projections/aeqd.html</a> terms) and calculating shortest Cartesian distance to the coastline coordinate in that projection. (We used the <code>nabor</code> package).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="http://www.rdocumentation.org/packages/raster/topics/plot">plot</a></span>(distance_to_coastline_lowres, <span class="dt">col =</span> viridis<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/viridis/topics/reexports">viridis</a></span>(<span class="dv">64</span>))
 <span class="kw"><a href="http://www.rdocumentation.org/packages/raster/topics/plot">plot</a></span>(rnaturalearth<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/rnaturalearth/topics/ne_coastline">ne_coastline</a></span>(), <span class="dt">add =</span> <span class="ot">TRUE</span>)</code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-2-1.png" width="100%"> The in-built data can be interrogated directly for its properties.</p>
