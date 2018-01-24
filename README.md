@@ -97,4 +97,61 @@ Development
 
 We hope to add more data sets with a wider choice of methods so that an appropriate choice can be made for specific applications.
 
+Fun
+---
+
+For a bit of fun, let's plot as a globe (might not work on Github, but easy enough to run locally).
+
+``` r
+library(quadmesh)
+library(rgl)
+library(proj4)
+
+to_globe <- function(x, fact = 12) {
+  if (fact > 1) x <- raster::aggregate(distance_to_coastline_lowres, fact = fact)
+  qm <- quadmesh(x)
+  v <- proj4::ptransform( t(qm$vb[1:3, ]) * pi/180, 
+                          raster::projection(x), 
+                         "+proj=geocent +datum=WGS84")
+  qm$vb[1:3, ] <- t(v)
+  scl <- function(x) {rg <- range(x, na.rm = TRUE);(x - rg[1])/diff(rg)}
+
+  qm$material <- list(color = rep(viridis::viridis(64L)[scl(raster::values(x)) * 63L + 1], each = 4))
+  qm
+}
+globe <- to_globe(distance_to_coastline_lowres, fact = 4)
+rgl::rgl.clear()
+rgl::shade3d(globe, specular = "black")
+
+library(tidyverse)
+#> ── Attaching packages ────────────────────── tidyverse 1.2.1 ──
+#> ✔ ggplot2 2.2.1.9000     ✔ purrr   0.2.4     
+#> ✔ tibble  1.4.2          ✔ dplyr   0.7.4     
+#> ✔ tidyr   0.7.2          ✔ stringr 1.2.0     
+#> ✔ readr   1.1.1          ✔ forcats 0.2.0
+#> ── Conflicts ───────────────────────── tidyverse_conflicts() ──
+#> ✖ ggplot2::calc()  masks raster::calc()
+#> ✖ tidyr::extract() masks raster::extract()
+#> ✖ dplyr::filter()  masks stats::filter()
+#> ✖ dplyr::lag()     masks stats::lag()
+#> ✖ dplyr::select()  masks raster::select()
+library(spbabel)
+rbind_na <- function(x) rbind(x, NA)
+mk_lines <- function(x) {
+  mat <- spbabel::sptable(x) %>% 
+    split(.$branch_) %>% 
+    purrr::map_df(rbind_na) %>% 
+    dplyr::select(x_, y_) %>%   dplyr::slice(-1) %>% as.matrix()
+    as_tibble(proj4::ptransform( as.matrix(mat) * pi/180, 
+                          raster::projection(x), 
+                         "+proj=geocent +datum=WGS84"))
+}
+#rgl.clear()
+rgl::lines3d(mk_lines(rnaturalearth::ne_coastline()), col = "black", lwd = 3)
+#rgl::rglwidget()
+#rgl::rgl.snapshot("man/figures/globe1.png")
+```
+
+![globe distance](man/figures/globe1.png)
+
 Please note that this project is released with a [Contributor Code of Conduct](CONDUCT.md). By participating in this project you agree to abide by its terms.

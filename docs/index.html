@@ -126,6 +126,61 @@ raster<span class="op">::</span><span class="kw"><a href="http://www.rdocumentat
 <h2 class="hasAnchor">
 <a href="#development" class="anchor"></a>Development</h2>
 <p>We hope to add more data sets with a wider choice of methods so that an appropriate choice can be made for specific applications.</p>
+</div>
+<div id="fun" class="section level2">
+<h2 class="hasAnchor">
+<a href="#fun" class="anchor"></a>Fun</h2>
+<p>For a bit of fun, let’s plot as a globe (might not work on Github, but easy enough to run locally).</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(quadmesh)
+<span class="kw">library</span>(rgl)
+<span class="kw">library</span>(proj4)
+
+to_globe &lt;-<span class="st"> </span><span class="cf">function</span>(x, <span class="dt">fact =</span> <span class="dv">12</span>) {
+  <span class="cf">if</span> (fact <span class="op">&gt;</span><span class="st"> </span><span class="dv">1</span>) x &lt;-<span class="st"> </span>raster<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/raster/topics/aggregate">aggregate</a></span>(distance_to_coastline_lowres, <span class="dt">fact =</span> fact)
+  qm &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/quadmesh/topics/quadmesh">quadmesh</a></span>(x)
+  v &lt;-<span class="st"> </span>proj4<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/proj4/topics/transform">ptransform</a></span>( <span class="kw"><a href="http://www.rdocumentation.org/packages/raster/topics/transpose">t</a></span>(qm<span class="op">$</span>vb[<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>, ]) <span class="op">*</span><span class="st"> </span>pi<span class="op">/</span><span class="dv">180</span>, 
+                          raster<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/raster/topics/projection">projection</a></span>(x), 
+                         <span class="st">"+proj=geocent +datum=WGS84"</span>)
+  qm<span class="op">$</span>vb[<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>, ] &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/raster/topics/transpose">t</a></span>(v)
+  scl &lt;-<span class="st"> </span><span class="cf">function</span>(x) {rg &lt;-<span class="st"> </span><span class="kw">range</span>(x, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>);(x <span class="op">-</span><span class="st"> </span>rg[<span class="dv">1</span>])<span class="op">/</span><span class="kw">diff</span>(rg)}
+
+  qm<span class="op">$</span>material &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">color =</span> <span class="kw">rep</span>(viridis<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/viridis/topics/reexports">viridis</a></span>(64L)[<span class="kw">scl</span>(raster<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/raster/topics/getValues">values</a></span>(x)) <span class="op">*</span><span class="st"> </span>63L <span class="op">+</span><span class="st"> </span><span class="dv">1</span>], <span class="dt">each =</span> <span class="dv">4</span>))
+  qm
+}
+globe &lt;-<span class="st"> </span><span class="kw">to_globe</span>(distance_to_coastline_lowres, <span class="dt">fact =</span> <span class="dv">4</span>)
+rgl<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/rgl/topics/scene">rgl.clear</a></span>()
+rgl<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/rgl/topics/mesh3d">shade3d</a></span>(globe, <span class="dt">specular =</span> <span class="st">"black"</span>)
+
+<span class="kw">library</span>(tidyverse)
+<span class="co">#&gt; ── Attaching packages ────────────────────── tidyverse 1.2.1 ──</span>
+<span class="co">#&gt; ✔ ggplot2 2.2.1.9000     ✔ purrr   0.2.4     </span>
+<span class="co">#&gt; ✔ tibble  1.4.2          ✔ dplyr   0.7.4     </span>
+<span class="co">#&gt; ✔ tidyr   0.7.2          ✔ stringr 1.2.0     </span>
+<span class="co">#&gt; ✔ readr   1.1.1          ✔ forcats 0.2.0</span>
+<span class="co">#&gt; ── Conflicts ───────────────────────── tidyverse_conflicts() ──</span>
+<span class="co">#&gt; ✖ ggplot2::calc()  masks raster::calc()</span>
+<span class="co">#&gt; ✖ tidyr::extract() masks raster::extract()</span>
+<span class="co">#&gt; ✖ dplyr::filter()  masks stats::filter()</span>
+<span class="co">#&gt; ✖ dplyr::lag()     masks stats::lag()</span>
+<span class="co">#&gt; ✖ dplyr::select()  masks raster::select()</span>
+<span class="kw">library</span>(spbabel)
+rbind_na &lt;-<span class="st"> </span><span class="cf">function</span>(x) <span class="kw">rbind</span>(x, <span class="ot">NA</span>)
+mk_lines &lt;-<span class="st"> </span><span class="cf">function</span>(x) {
+  mat &lt;-<span class="st"> </span>spbabel<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/spbabel/topics/sptable">sptable</a></span>(x) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">split</span>(.<span class="op">$</span>branch_) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span>purrr<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/purrr/topics/map">map_df</a></span>(rbind_na) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(x_, y_) <span class="op">%&gt;%</span><span class="st">   </span>dplyr<span class="op">::</span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/slice.html">slice</a></span>(<span class="op">-</span><span class="dv">1</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/raster/topics/as.matrix">as.matrix</a></span>()
+    <span class="kw">as_tibble</span>(proj4<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/proj4/topics/transform">ptransform</a></span>( <span class="kw"><a href="http://www.rdocumentation.org/packages/raster/topics/as.matrix">as.matrix</a></span>(mat) <span class="op">*</span><span class="st"> </span>pi<span class="op">/</span><span class="dv">180</span>, 
+                          raster<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/raster/topics/projection">projection</a></span>(x), 
+                         <span class="st">"+proj=geocent +datum=WGS84"</span>))
+}
+<span class="co">#rgl.clear()</span>
+rgl<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/rgl/topics/3dobjects">lines3d</a></span>(<span class="kw">mk_lines</span>(rnaturalearth<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/rnaturalearth/topics/ne_coastline">ne_coastline</a></span>()), <span class="dt">col =</span> <span class="st">"black"</span>, <span class="dt">lwd =</span> <span class="dv">3</span>)
+<span class="co">#rgl::rglwidget()</span>
+<span class="co">#rgl::rgl.snapshot("man/figures/globe1.png")</span></code></pre></div>
+<div class="figure">
+<img src="reference/figures/globe1.png" alt="globe distance"><p class="caption">globe distance</p>
+</div>
 <p>Please note that this project is released with a <a href="CONDUCT.md">Contributor Code of Conduct</a>. By participating in this project you agree to abide by its terms.</p>
 </div>
 </div>
