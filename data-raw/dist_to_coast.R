@@ -8,7 +8,7 @@ library(dplyr)
 library(nabor)
 coast_pts <- sptable(d) %>% distinct(x_, y_) %>% as.matrix()
 #coast <- st_union(d)
-r <- raster::raster(extent(-180, 180, -90, 90), ncols = 600, nrows = 300, crs = "+init=epsg:4326")
+r <- raster::raster(extent(-180, 180, -90, 90), ncols = 720, nrows = 360, crs = "+init=epsg:4326")
 
 
 ## tile up
@@ -40,7 +40,7 @@ for (icell in seq_len(ncell(tiles))) {
 }
 d <- as_tibble(lapply(distance, unlist))
 tib <- inner_join(tib, d, c("native_cell" = "cell"))
-distance_to_coastline_lowres <- setValues(r, tib$distance)
+distance_to_coastline_lowres <- setValues(r, as.integer(tib$distance))
 #plot(dist_to_coastline)
 
 usethis::use_data(distance_to_coastline_lowres)
