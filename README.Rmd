@@ -4,8 +4,8 @@ editor_options:
   chunk_output_type: console
 ---
 
-[![Travis build status](https://travis-ci.org/mdsumner/distancetocoast.svg?branch=master)](https://travis-ci.org/mdsumner/distancetocoast)
-[![AppVeyor Build Status](https://ci.appveyor.com/mdsumner/distancetocoast)](https://ci.appveyor.com/api/projects/status/github//mdsumner/distancetocoast/?branch=master&svg=true)
+ [![Travis build status](https://travis-ci.org/mdsumner/distancetocoast.svg?branch=master)](https://travis-ci.org/mdsumner/distancetocoast)
+ [![AppVeyor Build Status](https://ci.appveyor.com/mdsumner/distancetocoast)](https://ci.appveyor.com/api/projects/status/github//mdsumner/distancetocoast/?branch=master&svg=true)
  
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
@@ -96,9 +96,9 @@ plot(rnaturalearth::ne_coastline(10), add = TRUE)
 
 plot(crop(distance_to_coastline_10, extent(157, 160, -57, -54)), col = viridis::viridis(64))
 plot(rnaturalearth::ne_coastline(10), add = TRUE)
-
-extract(distance_to_coastline_10, cbind(142, -42))
-extract(distance_to_coastline_lowres, cbind(142, -42))
+abline(v = 147, h = -42)
+extract(distance_to_coastline_10, cbind(147, -42))
+extract(distance_to_coastline_lowres, cbind(147, -42))
 
 ```
 

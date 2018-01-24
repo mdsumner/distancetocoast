@@ -1,4 +1,6 @@
 
+[![Travis build status](https://travis-ci.org/mdsumner/distancetocoast.svg?branch=master)](https://travis-ci.org/mdsumner/distancetocoast) [![AppVeyor Build Status](https://ci.appveyor.com/mdsumner/distancetocoast)](https://ci.appveyor.com/api/projects/status/github//mdsumner/distancetocoast/?branch=master&svg=true)
+
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 distancetocoast
 ===============
@@ -102,18 +104,18 @@ plot(rnaturalearth::ne_coastline(10), add = TRUE)
 
 plot(crop(distance_to_coastline_10, extent(157, 160, -57, -54)), col = viridis::viridis(64))
 plot(rnaturalearth::ne_coastline(10), add = TRUE)
+abline(v = 147, h = -42)
 ```
 
 <img src="man/figures/README-unnamed-chunk-5-2.png" width="100%" />
 
 ``` r
-
-extract(distance_to_coastline_10, cbind(142, -42))
-#>        
-#> 241399
-extract(distance_to_coastline_lowres, cbind(142, -42))
-#>        
-#> 238327
+extract(distance_to_coastline_10, cbind(147, -42))
+#>       
+#> 90146
+extract(distance_to_coastline_lowres, cbind(147, -42))
+#>       
+#> 65628
 ```
 
 See '/data-raw/' for the code used to produce all layer.
