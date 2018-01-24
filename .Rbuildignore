@@ -4,3 +4,5 @@
 ^README\.Rmd$
 ^docs$
 ^CONDUCT\.md$
+^\.travis\.yml$
+^appveyor\.yml$

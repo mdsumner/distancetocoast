@@ -4,6 +4,9 @@ editor_options:
   chunk_output_type: console
 ---
 
+[![Travis build status](https://travis-ci.org/mdsumner/distancetocoast.svg?branch=master)](https://travis-ci.org/mdsumner/distancetocoast)
+[![AppVeyor Build Status](https://ci.appveyor.com/mdsumner/distancetocoast)](https://ci.appveyor.com/api/projects/status/github//mdsumner/distancetocoast/?branch=master&svg=true)
+ 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
 ```{r setup, include = FALSE}

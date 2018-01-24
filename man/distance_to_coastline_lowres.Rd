@@ -9,6 +9,8 @@
 \description{
 All are \code{RasterLayer} layer with the distance (metres) to the Natural Earth
 coastline.
+To find the dimensions, extent, resolution, data properties, and metadata
+use the raster package functions - most of this information will be printed by default.
 \itemize{
 \item \code{distance_to_coastline_lowres}  Scale 110  \code{rnaturalearth::ne_coastline(scale = 110)}.
 \item \code{distance_to_coastline_50}  Scale 50 \code{rnaturalearth::ne_coastline(scale = 50)}.
