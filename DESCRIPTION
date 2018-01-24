@@ -1,0 +1,11 @@
+Package: distancetocoast
+Version: 0.0.0.9000
+Title: Look Up Distance to Coastline
+Description: Provides stored raster data to give approximate distance to the coast for anywhere in the world.
+Authors@R: person("Michael", "Sumner", email = "mdsumner@gmail.com", role = c("aut", "cre"))
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+ByteCompile: true
+RoxygenNote: 6.0.1
+Depends: R (>= 3.0.0)

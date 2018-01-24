@@ -1,0 +1,89 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+# distancetoland
+
+The goal of distancetoland is to provide an easy lookup for the "distance to coastline" for longitude and latitude coordinates. 
+
+## Installation
+
+The distancetocoast package may be installed from Github using devtools. 
+
+```{r,eval=FALSE}
+devtools::install_github("AustralianAntarcticDivision/distancetocoast")
+```
+
+
+## Example
+
+There is an in-built data set, in `raster` format. The raster package
+includes an `extract` function which will look up a cell value at 
+a given longitude and latitude location. 
+
+This value is the distance to the coastline from the centre of the cell. 
+```{r example}
+library(distancetocoast)
+library(raster)
+## beware of clashing with tidyr::extract
+raster::extract(distance_to_coastline_lowres, cbind(147, -42))
+```
+
+This is a very approximate value, and it will depend on the content and quality of the coastline data used, on the resolution of the grid itself, some un-quantified local distortions due to coordinate transformations and discretization, and may not be accurate for some applications. 
+
+This grid was created by process it in tiles, reprojecting the coastline and the grid pixel centres to a local Lambert Azimuthal Equi-distant projection and calculating shortest Cartesian distance to the coastline coordinate in that projection. (We used the `nabor` package). 
+
+```{r}
+plot(distance_to_coastline_lowres, col = viridis::viridis(64))
+plot(rnaturalearth::ne_coastline(), add = TRUE)
+```
+The in-built data can be interrogated directly for its properties. 
+
+```{r}
+## resolution (cell size in native coordinates)
+raster::res(distance_to_coastline_lowres)
+
+## dimensions (number of columns and rows)
+dim(distance_to_coastline_lowres)
+
+## the extent, in native coordinates
+raster::extent(distance_to_coastline_lowres)
+
+## the "CRS", coordinate reference system (the map projection)
+raster::projection(distance_to_coastline_lowres)
+
+## the range of values (distance in metres)
+cellStats(distance_to_coastline_lowres, min)
+cellStats(distance_to_coastline_lowres, max)
+```
+
+All of this information may be seen in one step by using the print method. 
+
+```{r}
+distance_to_coastline_lowres
+```
+
+The distance values are currently 
+
+
+See '/data-raw/' for the code used to produce this layer. 
+
+
+## Development
+
+We hope to add more data sets with a wider choice of methods so that an appropriate choice can be made for specific applications. 
+
+
+
+Please note that this project is released with a [Contributor Code of Conduct](CONDUCT.md). By participating in this project you agree to abide by its terms.
+
